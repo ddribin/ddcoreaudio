@@ -27,8 +27,8 @@
 
 @interface DDAudioComponent : NSObject
 {
-    Component mComponent;
-    ComponentDescription mDescription;
+    AudioComponent mComponent;
+    AudioComponentDescription mDescription;
     NSString * mManufacturer;
     NSString * mName;
 }
@@ -37,16 +37,15 @@
                              subType: (OSType) subType
                         manufacturer: (OSType) manufacturer;
 
-+ (NSArray *) componentsMatchingDescription:
-    (ComponentDescription *) description;
++ (NSArray *) componentsMatchingDescription: (AudioComponentDescription *) description;
 
 + (void) printComponents;
 
-- (id) initWithComponent: (Component) component;
++ (void) printComponentsMatchingType: (OSType) type;
 
-- (Component) Component;
+- (id) initWithComponent: (AudioComponent) component;
 
-- (ComponentDescription) ComponentDescription;
+- (AudioComponent) AudioComponent;
 
 - (AudioComponentDescription) AudioComponentDescription;
 

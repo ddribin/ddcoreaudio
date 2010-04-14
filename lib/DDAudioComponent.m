@@ -33,7 +33,7 @@
                              subType: (OSType) subType
                         manufacturer: (OSType) manufacturer;
 {
-    ComponentDescription description;
+    AudioComponentDescription description;
     description.componentType = type;
     description.componentSubType = subType;
     description.componentManufacturer = manufacturer;
@@ -43,17 +43,16 @@
     return [self componentsMatchingDescription: &description];
 }
 
-+ (NSArray *) componentsMatchingDescription:
-    (ComponentDescription *) description;
++ (NSArray *) componentsMatchingDescription: (AudioComponentDescription *) description;
 {
-    long componentCount = CountComponents(description);
+    UInt32 componentCount = AudioComponentCount(description);
     NSMutableArray * components =
         [NSMutableArray arrayWithCapacity: componentCount];
-    Component current = 0;
+    AudioComponent current = 0;
     do
     {
         NSAutoreleasePool * loopPool = [[NSAutoreleasePool alloc] init];
-        current = FindNextComponent(current, description);
+        current = AudioComponentFindNext(current, description);
         if (current != 0)
         {
             DDAudioComponent * component =
@@ -69,16 +68,34 @@
 
 + (void) printComponents;
 {
-    NSArray * components = [self componentsMatchingType: kAudioUnitType_Effect
+    OSType types[] = {
+        kAudioUnitType_Output,
+        kAudioUnitType_MusicDevice,
+        kAudioUnitType_MusicEffect,
+        kAudioUnitType_FormatConverter,
+        kAudioUnitType_Effect,
+        kAudioUnitType_Mixer,
+        kAudioUnitType_Panner,
+        kAudioUnitType_Generator,
+        kAudioUnitType_OfflineEffect,
+    };
+    for (int i = 0; i < (sizeof(types)/sizeof(*types)); i++) {
+        OSType type = types[i];
+        [self printComponentsMatchingType:type];
+    }
+}
+
++ (void) printComponentsMatchingType: (OSType) type;
+{
+    NSArray * components = [self componentsMatchingType: type
                                                 subType: 0
                                            manufacturer: 0];
-    NSLog(@"component count: %d", [components count]);
     
     NSEnumerator * e = [components objectEnumerator];
     DDAudioComponent * component;
     while (component = [e nextObject])
     {
-        ComponentDescription description = [component ComponentDescription];
+        AudioComponentDescription description = [component AudioComponentDescription];
         NSString * type = (NSString *)
             UTCreateStringForOSType(description.componentType);
         NSString * subType = (NSString *)
@@ -86,8 +103,8 @@
         NSString * manufacturer = (NSString *)
             UTCreateStringForOSType(description.componentManufacturer);
         
-        NSLog(@"Compoment %@ by %@: %@ %@ %@", [component name],
-              [component manufacturer], type, subType, manufacturer);
+        NSLog(@"Compoment %@ %@ %@: %@ by %@", type, subType, manufacturer,
+              [component name], [component manufacturer]);
         
         [type release];
         [subType release];
@@ -95,7 +112,7 @@
     }
 }
 
-- (id) initWithComponent: (Component) component;
+- (id) initWithComponent: (AudioComponent) component;
 {
     self = [super init];
     if (self == nil)
@@ -105,12 +122,11 @@
     mManufacturer = @"";
     mName = @"";
     
-    Handle h1 = NewHandle(4);
-    THROW_IF(GetComponentInfo(component, &mDescription, h1, NULL, NULL));
+    THROW_IF(AudioComponentGetDescription(component, &mDescription));
     
-    NSString * fullName = (NSString *)
-        CFStringCreateWithPascalString(NULL, (const unsigned char*)*h1, kCFStringEncodingMacRoman);
-    DisposeHandle(h1);
+    CFStringRef cfFullName = NULL;
+    THROW_IF(AudioComponentCopyName(component, &cfFullName));
+    NSString * fullName = [NSMakeCollectable(cfFullName) autorelease];
     
     NSRange colonRange = [fullName rangeOfString: @":"];
     if (colonRange.location != NSNotFound)
@@ -129,25 +145,25 @@
         mName = [fullName copy];
     }
     
-    [fullName release];
-    
     return self;
 }
 
-- (Component) Component;
+- (void)dealloc
+{
+    [mManufacturer release];
+    [mName release];
+    [super dealloc];
+}
+
+
+- (AudioComponent) AudioComponent;
 {
     return mComponent;
 }
 
-- (ComponentDescription) ComponentDescription;
-{
-    return mDescription;
-}
-
 - (AudioComponentDescription) AudioComponentDescription;
 {
-    AudioComponentDescription * description = (AudioComponentDescription *)&mDescription;
-    return *description;
+    return mDescription;
 }
 
 - (NSString *) manufacturer;
