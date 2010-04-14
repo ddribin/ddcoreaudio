@@ -55,9 +55,9 @@
 - (DDAudioUnit *) audioUnit;
 {
     AudioUnit audioUnit;
-    THROW_IF(AUGraphGetNodeInfo([mGraph AUGraph],
-                                [self AUNode],
-                                NULL, NULL, NULL, &audioUnit));
+    THROW_IF(AUGraphNodeInfo([mGraph AUGraph],
+                             [self AUNode],
+                             NULL, &audioUnit));
     return [[[DDAudioUnit alloc] initWithAudioUnit: audioUnit] autorelease];
 }
 

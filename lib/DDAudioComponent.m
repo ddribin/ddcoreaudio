@@ -144,6 +144,12 @@
     return mDescription;
 }
 
+- (AudioComponentDescription) AudioComponentDescription;
+{
+    AudioComponentDescription * description = (AudioComponentDescription *)&mDescription;
+    return *description;
+}
+
 - (NSString *) manufacturer;
 {
     return mManufacturer;

@@ -48,7 +48,7 @@
                          manufacturer: (OSType) manufacturer;
 
 - (DDAudioUnitNode *) addNodeWithDescription:
-    (ComponentDescription *) description;
+    (AudioComponentDescription *) description;
 
 - (DDAudioUnitNode *) addNodeWithComponent: (DDAudioComponent *) component;
 

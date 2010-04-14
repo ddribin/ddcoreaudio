@@ -48,6 +48,8 @@
 
 - (ComponentDescription) ComponentDescription;
 
+- (AudioComponentDescription) AudioComponentDescription;
+
 - (NSString *) manufacturer;
 
 - (NSString *) name;

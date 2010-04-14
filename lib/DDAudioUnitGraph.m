@@ -64,7 +64,7 @@
                               subType: (OSType) subType
                          manufacturer: (OSType) manufacturer;
 {
-    ComponentDescription description;
+    AudioComponentDescription description;
     description.componentType = type;
     description.componentSubType = subType;
     description.componentManufacturer = manufacturer;
@@ -74,16 +74,16 @@
 }
 
 - (DDAudioUnitNode *) addNodeWithDescription:
-    (ComponentDescription *) description;
+    (AudioComponentDescription *) description;
 {
     AUNode node;
-    THROW_IF(AUGraphNewNode(mGraph, description, 0, NULL, &node));
+    THROW_IF(AUGraphAddNode(mGraph, description, &node));
     return [[[DDAudioUnitNode alloc] initWithAUNode: node inGraph: self] autorelease];
 }
 
 - (DDAudioUnitNode *) addNodeWithComponent: (DDAudioComponent *) component;
 {
-    ComponentDescription description = [component ComponentDescription];
+    AudioComponentDescription description = [component AudioComponentDescription];
     return [self addNodeWithDescription: &description];
 }
 
