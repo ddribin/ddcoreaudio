@@ -85,6 +85,12 @@
     }
 }
 
++ (NSString *)stringForOSType:(OSType)type
+{
+    NSString * string = NSMakeCollectable(UTCreateStringForOSType(type));
+    return [string autorelease];
+}
+
 + (void) printComponentsMatchingType: (OSType) type;
 {
     NSArray * components = [self componentsMatchingType: type
@@ -96,19 +102,12 @@
     while (component = [e nextObject])
     {
         AudioComponentDescription description = [component AudioComponentDescription];
-        NSString * type = (NSString *)
-            UTCreateStringForOSType(description.componentType);
-        NSString * subType = (NSString *)
-            UTCreateStringForOSType(description.componentSubType);
-        NSString * manufacturer = (NSString *)
-            UTCreateStringForOSType(description.componentManufacturer);
+        NSString * type = [self stringForOSType:description.componentType];
+        NSString * subType = [self stringForOSType:description.componentSubType];
+        NSString * manufacturer = [self stringForOSType:description.componentManufacturer];
         
         NSLog(@"Compoment %@ %@ %@: %@ by %@", type, subType, manufacturer,
               [component name], [component manufacturer]);
-        
-        [type release];
-        [subType release];
-        [manufacturer release];
     }
 }
 
