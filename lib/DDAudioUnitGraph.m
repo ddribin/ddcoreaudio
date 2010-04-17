@@ -176,9 +176,9 @@ static int dataWrite(void * context, const char * buffer, int count)
 NSString * DDCoreAudioShowObjectToString(void * object)
 {
     NSMutableData * descriptionData = [NSMutableData data];
-    FILE * dummyFile = fwopen(descriptionData, dataWrite);
-    CAShowFile(object, dummyFile);
-    fclose(dummyFile);
+    FILE * inMemoryFile = fwopen(descriptionData, dataWrite);
+    CAShowFile(object, inMemoryFile);
+    fclose(inMemoryFile);
     
     NSString * description = [[NSString alloc] initWithData:descriptionData encoding:NSUTF8StringEncoding];
     return [description autorelease];
