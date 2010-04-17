@@ -47,8 +47,7 @@
                               subType: (OSType) subType
                          manufacturer: (OSType) manufacturer;
 
-- (DDAudioUnitNode *) addNodeWithDescription:
-    (AudioComponentDescription *) description;
+- (DDAudioUnitNode *) addNodeWithDescription: (AudioComponentDescription *) description;
 
 - (DDAudioUnitNode *) addNodeWithComponent: (DDAudioComponent *) component;
 
@@ -63,11 +62,6 @@
                   input: (UInt32) input;
 
 - (void) disconnectAll;
-
-- (void) setInputCallback: (AURenderCallback) renderCallBack
-                  context: (void *) context
-                  forNode: (DDAudioUnitNode *) sourceNode
-                    input: (UInt32) input;
 
 - (void) open;
 

@@ -34,6 +34,7 @@
 {
     AUNode mNode;
     DDAudioUnitGraph * mGraph;
+    DDAudioUnit * mAudioUnit;
 }
 
 - (id) initWithAUNode: (AUNode) node inGraph: (DDAudioUnitGraph *) graph;
@@ -41,5 +42,9 @@
 - (AUNode) AUNode;
 
 - (DDAudioUnit *) audioUnit;
+
+- (void) setInputCallback: (AURenderCallback) renderCallBack
+                  context: (void *) context
+                 forInput: (UInt32) input;
 
 @end

@@ -73,8 +73,7 @@
     return [self addNodeWithDescription: &description];
 }
 
-- (DDAudioUnitNode *) addNodeWithDescription:
-    (AudioComponentDescription *) description;
+- (DDAudioUnitNode *) addNodeWithDescription: (AudioComponentDescription *) description;
 {
     AUNode node;
     THROW_IF(AUGraphAddNode(mGraph, description, &node));
@@ -113,19 +112,6 @@
 - (void) disconnectAll;
 {
     THROW_IF(AUGraphClearConnections(mGraph));
-}
-
-- (void) setInputCallback: (AURenderCallback) renderCallBack
-                  context: (void *) context
-                  forNode: (DDAudioUnitNode *) sourceNode
-                    input: (UInt32) input;
-{
-    AURenderCallbackStruct callback = {
-        .inputProc = renderCallBack,
-        .inputProcRefCon = context
-    };
-    THROW_IF(AUGraphSetNodeInputCallback(mGraph, [sourceNode AUNode], input,
-                                         &callback));
 }
 
 - (void) open;

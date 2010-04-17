@@ -43,8 +43,10 @@
     return self;
 }
 
-- (void) delloc
+- (void) dealloc
 {
+    [mAudioUnit release];
+    [super dealloc];
 }
 
 - (AUNode) AUNode;
@@ -54,11 +56,27 @@
 
 - (DDAudioUnit *) audioUnit;
 {
-    AudioUnit audioUnit;
-    THROW_IF(AUGraphNodeInfo([mGraph AUGraph],
-                             [self AUNode],
-                             NULL, &audioUnit));
-    return [[[DDAudioUnit alloc] initWithAudioUnit: audioUnit] autorelease];
+    if (mAudioUnit == nil) {
+        AudioUnit audioUnit;
+        THROW_IF(AUGraphNodeInfo([mGraph AUGraph],
+                                 [self AUNode],
+                                 NULL, &audioUnit));
+        mAudioUnit = [[DDAudioUnit alloc] initWithAudioUnit: audioUnit];
+    }
+    
+    return mAudioUnit;
+}
+
+- (void) setInputCallback: (AURenderCallback) renderCallBack
+                  context: (void *) context
+                 forInput: (UInt32) input;
+{
+    AURenderCallbackStruct callback = {
+        .inputProc = renderCallBack,
+        .inputProcRefCon = context
+    };
+    THROW_IF(AUGraphSetNodeInputCallback([mGraph AUGraph], [self AUNode], input,
+                                         &callback));
 }
 
 @end
