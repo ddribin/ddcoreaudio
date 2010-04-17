@@ -44,6 +44,7 @@
 
 - (void) dealloc;
 {
+    DisposeAUGraph(mGraph);
     [super dealloc];
 }
 

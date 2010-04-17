@@ -63,6 +63,12 @@
     return self;
 }
 
+- (void) dealloc
+{
+    [mFactoryPresets release];
+    [super dealloc];
+}
+
 - (AudioUnit) AudioUnit;
 {
     return mAudioUnit;
