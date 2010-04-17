@@ -64,6 +64,11 @@
 
 - (void) disconnectAll;
 
+- (void) setInputCallback: (AURenderCallback) renderCallBack
+                  context: (void *) context
+                  forNode: (DDAudioUnitNode *) sourceNode
+                    input: (UInt32) input;
+
 - (void) open;
 
 - (void) update;
@@ -77,5 +82,7 @@
 - (void) stop;
 
 - (float) cpuLoad;
+
+- (void) show;
 
 @end

@@ -45,8 +45,7 @@
 
 - (BOOL) bypass;
 
-- (void) setStreamFormatWithDescription:
-    (const AudioStreamBasicDescription *) streamFormat;
+- (void) setStreamFormatWithDescription: (const AudioStreamBasicDescription *) streamFormat;
 
 - (void) setParameter: (AudioUnitParameterID) parameter
                 scope: (AudioUnitScope) scope

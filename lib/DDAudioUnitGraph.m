@@ -115,6 +115,19 @@
     THROW_IF(AUGraphClearConnections(mGraph));
 }
 
+- (void) setInputCallback: (AURenderCallback) renderCallBack
+                  context: (void *) context
+                  forNode: (DDAudioUnitNode *) sourceNode
+                    input: (UInt32) input;
+{
+    AURenderCallbackStruct callback = {
+        .inputProc = renderCallBack,
+        .inputProcRefCon = context
+    };
+    THROW_IF(AUGraphSetNodeInputCallback(mGraph, [sourceNode AUNode], input,
+                                         &callback));
+}
+
 - (void) open;
 {
     THROW_IF(AUGraphOpen(mGraph));
@@ -151,5 +164,11 @@
     THROW_IF(AUGraphGetCPULoad(mGraph, &cpuLoad));
     return (float) cpuLoad;
 }
+
+- (void) show;
+{
+    CAShow(mGraph);
+}
+           
 
 @end

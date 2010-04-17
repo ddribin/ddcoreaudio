@@ -106,8 +106,7 @@
     return (bypassInt == 0)? NO : YES;
 }
 
-- (void) setStreamFormatWithDescription:
-    (const AudioStreamBasicDescription *) streamFormat;
+- (void) setStreamFormatWithDescription: (const AudioStreamBasicDescription *) streamFormat;
 {
     THROW_IF(AudioUnitSetProperty([self AudioUnit],
                                   kAudioUnitProperty_StreamFormat,
