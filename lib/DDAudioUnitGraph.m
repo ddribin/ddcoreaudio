@@ -158,6 +158,13 @@
     THROW_IF(AUGraphStop(mGraph));
 }
 
+- (BOOL) isRunning;
+{
+    Boolean isRunning;
+    THROW_IF(AUGraphIsRunning(mGraph, &isRunning));
+    return isRunning;
+}
+
 - (float) cpuLoad;
 {
     Float32 cpuLoad;

@@ -81,6 +81,8 @@
 
 - (void) stop;
 
+- (BOOL) isRunning;
+
 - (float) cpuLoad;
 
 - (void) show;
