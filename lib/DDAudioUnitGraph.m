@@ -159,10 +159,27 @@
     return (float) cpuLoad;
 }
 
-- (void) show;
+- (NSString *) description
 {
-    CAShow(mGraph);
+    return DDCoreAudioShowObjectToString(mGraph);
 }
-           
 
 @end
+
+static int dataWrite(void * context, const char * buffer, int count)
+{
+    NSMutableData * descriptionData = context;
+    [descriptionData appendBytes:buffer length:count];
+    return 0;
+}
+
+NSString * DDCoreAudioShowObjectToString(void * object)
+{
+    NSMutableData * descriptionData = [NSMutableData data];
+    FILE * dummyFile = fwopen(descriptionData, dataWrite);
+    CAShowFile(object, dummyFile);
+    fclose(dummyFile);
+    
+    NSString * description = [[NSString alloc] initWithData:descriptionData encoding:NSUTF8StringEncoding];
+    return [description autorelease];
+}

@@ -79,6 +79,6 @@
 
 - (float) cpuLoad;
 
-- (void) show;
-
 @end
+
+NSString * DDCoreAudioShowObjectToString(void * object);
