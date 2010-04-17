@@ -63,7 +63,7 @@
 
 - (NSArray *) factoryPresets;
 
-- (unsigned) indexOfFactoryPreset: (DDAudioUnitPreset *) presetToFind;
+- (NSUInteger) indexOfFactoryPreset: (DDAudioUnitPreset *) presetToFind;
 
 - (DDAudioUnitPreset *) presentPreset;
 - (void) setPresentPreset: (DDAudioUnitPreset *) presentPreset;

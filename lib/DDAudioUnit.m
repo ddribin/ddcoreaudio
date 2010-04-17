@@ -148,10 +148,10 @@
     return mFactoryPresets;
 }
 
-- (unsigned) indexOfFactoryPreset: (DDAudioUnitPreset *) presetToFind;
+- (NSUInteger) indexOfFactoryPreset: (DDAudioUnitPreset *) presetToFind;
 {
-    unsigned result = NSNotFound;
-    unsigned i;
+    NSUInteger result = NSNotFound;
+    NSUInteger i;
     for (i = 0; i < [mFactoryPresets count]; i++)
     {
         DDAudioUnitPreset * preset = [mFactoryPresets objectAtIndex: i];
