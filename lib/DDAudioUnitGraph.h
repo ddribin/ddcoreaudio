@@ -65,6 +65,8 @@
 
 - (void) open;
 
+- (void) close;
+
 - (void) update;
 
 - (void) initialize;

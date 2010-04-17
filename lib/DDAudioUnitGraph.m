@@ -120,6 +120,11 @@
     THROW_IF(AUGraphOpen(mGraph));
 }
 
+- (void) close;
+{
+    THROW_IF(AUGraphClose(mGraph));
+}
+
 - (void) update;
 {
     THROW_IF(AUGraphUpdate(mGraph, NULL));
