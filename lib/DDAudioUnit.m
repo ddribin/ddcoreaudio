@@ -24,9 +24,12 @@
 
 #import "DDAudioUnit.h"
 #import "DDAudioException.h"
-#import <AudioUnit/AUCocoaUIView.h>
-#import <CoreAudioKit/CoreAudioKit.h>
 #import "DDAudioUnitPreset.h"
+
+#if !TARGET_OS_IPHONE
+# import <AudioUnit/AUCocoaUIView.h>
+# import <CoreAudioKit/CoreAudioKit.h>
+#endif
 
 #define THROW_IF DDThrowAudioIfErr
 
@@ -205,6 +208,8 @@
     [self setPresentPreset: [mFactoryPresets objectAtIndex: presentPresetIndex]];
 }
 
+#if !TARGET_OS_IPHONE
+
 #pragma mark -
 #pragma mark View
 
@@ -320,5 +325,7 @@
     }
     CFRelease(factoryPresets);
 }
+
+#endif
 
 @end

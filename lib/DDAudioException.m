@@ -23,6 +23,7 @@
  */
 
 #import "DDAudioException.h"
+#import "DDAudioCompatibility.h"
 
 NSString * DDAudioException = @"AudioException";
 

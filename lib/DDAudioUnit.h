@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <AudioUnit/AudioUnit.h>
 
 @class AUGenericView;
@@ -70,6 +70,8 @@
 - (unsigned) presentPresetIndex;
 - (void) setPresentPresetIndex: (unsigned) presentPresetIndex;
 
+#if !TARGET_OS_IPHONE
+
 #pragma mark -
 #pragma mark View
 
@@ -81,4 +83,12 @@
 
 - (AUGenericView *) createGenericView;
 
+#endif
+
 @end
+
+#if !TARGET_OS_IPHONE
+# define kAudioUnitSubType_DDDefaultOutput kAudioUnitSubType_DefaultOutput
+#else
+# define kAudioUnitSubType_DDDefaultOutput kAudioUnitSubType_RemoteIO
+#endif

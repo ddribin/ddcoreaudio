@@ -24,6 +24,7 @@
 
 #import "DDAudioComponent.h"
 #import "DDAudioException.h"
+#import "DDAudioCompatibility.h"
 
 #define THROW_IF DDThrowAudioIfErr
 

@@ -22,35 +22,22 @@
  * SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
-#import <AudioUnit/AudioUnit.h>
+#import "DDAudioCompatibility.h"
 
-@interface DDAudioComponent : NSObject
+
+#if TARGET_OS_IPHONE
+
+CFStringRef UTCreateStringForOSType(OSType inOSType)
 {
-    AudioComponent mComponent;
-    AudioComponentDescription mDescription;
-    NSString * mManufacturer;
-    NSString * mName;
+    inOSType = CFSwapInt32HostToBig(inOSType);
+    char fourCharCode[5] = {0};
+    memcpy(fourCharCode, &inOSType, 4);
+    return CFStringCreateWithCString(NULL, fourCharCode, kCFStringEncodingUTF8);
 }
 
-+ (NSArray *) componentsMatchingType: (OSType) type
-                             subType: (OSType) subType
-                        manufacturer: (OSType) manufacturer;
+extern const char * GetMacOSStatusErrorString(OSStatus err)
+{
+    return "unknown";
+}
 
-+ (NSArray *) componentsMatchingDescription: (AudioComponentDescription *) description;
-
-+ (void) printComponents;
-
-+ (void) printComponentsMatchingType: (OSType) type;
-
-- (id) initWithComponent: (AudioComponent) component;
-
-- (AudioComponent) AudioComponent;
-
-- (AudioComponentDescription) AudioComponentDescription;
-
-- (NSString *) manufacturer;
-
-- (NSString *) name;
-
-@end
+#endif

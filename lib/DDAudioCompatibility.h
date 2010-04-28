@@ -23,34 +23,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <AudioUnit/AudioUnit.h>
 
-@interface DDAudioComponent : NSObject
-{
-    AudioComponent mComponent;
-    AudioComponentDescription mDescription;
-    NSString * mManufacturer;
-    NSString * mName;
-}
 
-+ (NSArray *) componentsMatchingType: (OSType) type
-                             subType: (OSType) subType
-                        manufacturer: (OSType) manufacturer;
+#if TARGET_OS_IPHONE
 
-+ (NSArray *) componentsMatchingDescription: (AudioComponentDescription *) description;
+extern CFStringRef UTCreateStringForOSType(OSType inOSType);
 
-+ (void) printComponents;
+extern const char * GetMacOSStatusErrorString(OSStatus err);
 
-+ (void) printComponentsMatchingType: (OSType) type;
-
-- (id) initWithComponent: (AudioComponent) component;
-
-- (AudioComponent) AudioComponent;
-
-- (AudioComponentDescription) AudioComponentDescription;
-
-- (NSString *) manufacturer;
-
-- (NSString *) name;
-
-@end
+#endif
