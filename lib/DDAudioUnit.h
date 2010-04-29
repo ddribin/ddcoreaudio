@@ -38,6 +38,9 @@
 
 - (AudioUnit) AudioUnit;
 
+- (void) setUnsignedInt32Value:(UInt32)value forProperty:(AudioUnitPropertyID)property;
+- (UInt32) unsignedInt32ValueForProperty:(AudioUnitPropertyID)property;
+
 - (void) setRenderCallback: (AURenderCallback) callback
                    context: (void *) context;
 

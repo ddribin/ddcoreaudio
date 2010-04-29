@@ -77,6 +77,27 @@
     return mAudioUnit;
 }
 
+- (void) setUnsignedInt32Value:(UInt32)value forProperty: (AudioUnitPropertyID) property;
+{
+    THROW_IF(AudioUnitSetProperty([self AudioUnit],
+                                  property, 
+                                  0,
+                                  0, 
+                                  &value, 
+                                  sizeof(value)));
+}
+
+- (UInt32) unsignedInt32ValueForProperty: (AudioUnitPropertyID) property;
+{
+    UInt32 value;
+    UInt32 size = sizeof(value);
+    THROW_IF(AudioUnitGetProperty([self AudioUnit],
+                                  property, 
+                                  0,
+                                  0, 
+                                  &value, &size));
+    return value;
+}
 
 - (void) setRenderCallback: (AURenderCallback) callback
                    context: (void *) context;
@@ -94,24 +115,13 @@
 - (void) setBypass: (BOOL) bypass;
 {
     UInt32 bypassInt = bypass? 1 : 0;
-    THROW_IF(AudioUnitSetProperty([self AudioUnit],
-                                  kAudioUnitProperty_BypassEffect, 
-                                  0,
-                                  0, 
-                                  &bypassInt, 
-                                  sizeof(bypassInt)));
+    [self setUnsignedInt32Value:bypassInt forProperty:kAudioUnitProperty_BypassEffect];
 }
 
 
 - (BOOL) bypass;
 {
-    UInt32 bypassInt;
-    UInt32 size = sizeof(bypassInt);
-    THROW_IF(AudioUnitGetProperty([self AudioUnit],
-                                  kAudioUnitProperty_BypassEffect, 
-                                  0,
-                                  0, 
-                                  &bypassInt, &size));
+    UInt32 bypassInt = [self unsignedInt32ValueForProperty:kAudioUnitProperty_BypassEffect];
     return (bypassInt == 0)? NO : YES;
 }
 
