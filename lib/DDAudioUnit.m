@@ -332,6 +332,7 @@
         const AUPreset * preset = CFArrayGetValueAtIndex(factoryPresets, i);
         DDAudioUnitPreset * objcPreset = [[DDAudioUnitPreset alloc] initWithAUPreset: *preset];
         [mFactoryPresets addObject: objcPreset];
+        [objcPreset release];
     }
     CFRelease(factoryPresets);
 }
